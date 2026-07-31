@@ -83,6 +83,7 @@ class ModuleProvider extends ModuleServiceProvider
         ];
     }
 
+     /*
     public static function getUserMenu()
     {
         $res = [];
@@ -119,6 +120,7 @@ class ModuleProvider extends ModuleServiceProvider
         return $res;
     }
 
+     */
     public static function getTemplateBlocks(){
         if(!Car::isEnable()) return [];
         return [

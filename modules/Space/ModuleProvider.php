@@ -88,7 +88,7 @@ class ModuleProvider extends ModuleServiceProvider
         ];
     }
 
-    public static function getUserMenu()
+/* public static function getUserMenu()
     {
         $res = [];
         if (Space::isEnable()) {
@@ -122,7 +122,7 @@ class ModuleProvider extends ModuleServiceProvider
             ];
         }
         return $res;
-    }
+    }  */
 
     public static function getTemplateBlocks(){
         if(!Space::isEnable()) return [];
