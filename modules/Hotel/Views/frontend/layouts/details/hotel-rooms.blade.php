@@ -1,258 +1,168 @@
-<div id="hotel-rooms" class="hotel_rooms_form" v-cloak="" :class="{'d-none':enquiry_type!='book'}">
-    <h3 class="heading-section">{{__('Available Rooms')}}</h3>
-    <div class="nav-enquiry" v-if="is_form_enquiry_and_book">
-        <div class="enquiry-item active" >
-            <span>{{ __("Book") }}</span>
-        </div>
-        <div class="enquiry-item" data-toggle="modal" data-target="#enquiry_form_modal">
-            <span>{{ __("Enquiry") }}</span>
-        </div>
-    </div>
-    <div class="form-book">
-        <div class="form-search-rooms">
-            <div class="d-flex form-search-row">
-                <div class="col-md-4">
-                    <div class="form-group form-date-field form-date-search " @click="openStartDate" data-format="{{get_moment_date_format()}}">
-                        <i class="fa fa-angle-down arrow"></i>
-                        <input type="text" class="start_date" ref="start_date" style="height: 1px; visibility: hidden">
-                        <div class="date-wrapper form-content" >
-                            <label class="form-label">{{__("Check In - Out")}}</label>
-                            <div class="render check-in-render" v-html="start_date_html"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <i class="fa fa-angle-down arrow"></i>
-                        <div class="form-content dropdown-toggle" data-toggle="dropdown">
-                            <label class="form-label">{{__('Guests')}}</label>
-                            <div class="render">
-                                <span class="adults" >
-                                    <span class="one" >@{{adults}}
-                                        <span v-if="adults < 2">{{__('Adult')}}</span>
-                                        <span v-else>{{__('Adults')}}</span>
-                                    </span>
-                                </span>
-                                -
-                                <span class="children" >
-                                    <span class="one" >@{{children}}
-                                        <span v-if="children < 2">{{__('Child')}}</span>
-                                        <span v-else>{{__('Children')}}</span>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="dropdown-menu select-guests-dropdown" >
-                            <div class="dropdown-item-row">
-                                <div class="label">{{__('Adults')}}</div>
-                                <div class="val">
-                                    <span class="btn-minus2" data-input="adults" @click="minusPersonType('adults')"><i class="icon ion-md-remove"></i></span>
-                                    <span class="count-display"><input type="number" v-model="adults" min="1"/></span>
-                                    <span class="btn-add2" data-input="adults" @click="addPersonType('adults')"><i class="icon ion-ios-add"></i></span>
-                                </div>
-                            </div>
-                            <div class="dropdown-item-row">
-                                <div class="label">{{__('Children')}}</div>
-                                <div class="val">
-                                    <span class="btn-minus2" data-input="children" @click="minusPersonType('children')"><i class="icon ion-md-remove"></i></span>
-                                    <span class="count-display"><input type="number" v-model="children" min="0"/></span>
-                                    <span class="btn-add2" data-input="children" @click="addPersonType('children')"><i class="icon ion-ios-add"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-btn">
-                    <div class="g-button-submit">
-                        <button class="btn btn-primary btn-search" @click="checkAvailability" :class="{'loading':onLoadAvailability}" type="submit">
-                            {{__("Check Availability")}}
-                            <i v-show="onLoadAvailability" class="fa fa-spinner fa-spin"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="start_room_sticky"></div>
-        <div class="hotel_list_rooms" :class="{'loading':onLoadAvailability}">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="room-item" v-for="room in rooms">
-                        <div class="row">
-                            <div class="col-xs-12 col-md-3">
-                                <div class="image" @click="showGallery($event,room.id,room.gallery)">
-                                    <img :src="room.image" alt="">
-                                    <div class="count-gallery" v-if="typeof room.gallery !='undefined' && room.gallery && room.gallery.length > 1">
-                                        <i class="fa fa-picture-o"></i>
-                                        @{{room.gallery.length}}
-                                    </div>
-                                </div>
-                                <div class="modal" :id="'modal_room_'+room.id" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">@{{ room.title }}</h5>
-                                                <span class="c-pointer" data-dismiss="modal" aria-label="Close">
-                                                    <i class="input-icon field-icon fa">
-                                                        <img src="{{asset('images/ico_close.svg')}}" alt="close">
-                                                    </i>
-                                                </span>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="fotorama" data-nav="thumbs" data-width="100%" data-auto="false" data-allowfullscreen="true">
-                                                    <a v-for="g in room.gallery" :href="g.large"></a>
-                                                </div>
-                                                <div class="list-attributes">
-                                                    <div class="attribute-item" v-for="term in room.terms">
-                                                        <h4 class="title">@{{ term.parent.title }}</h4>
-                                                        <ul v-if="term.child">
-                                                            <li v-for="term_child in term.child.slice(0,5)">
-                                                                <i class="input-icon field-icon" v-bind:class="term_child.icon" data-toggle="tooltip" data-placement="top" :title="term_child.title"></i>
-                                                                @{{ term_child.title }}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="hotel-info">
-                                    <h3 class="room-name" @click="showGallery($event,room.id,room.gallery)">@{{room.title}}</h3>
-                                    <ul class="room-meta">
-                                        <li v-if="room.size_html">
-                                            <div class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{__('Room Footage')}}">
-                                                <i class="input-icon field-icon icofont-ruler-compass-alt"></i>
-                                                <span v-html="room.size_html"></span>
-                                            </div>
-                                        </li>
-                                        <li v-if="room.beds_html">
-                                            <div class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{__('No. Beds')}}">
-                                                <i class="input-icon field-icon icofont-hotel"></i>
-                                                <span v-html="room.beds_html"></span>
-                                            </div>
-                                        </li>
-                                        <li v-if="room.adults_html">
-                                            <div class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{__('No. Adults')}}">
-                                                <i class="input-icon field-icon icofont-users-alt-4"></i>
-                                                <span v-html="room.adults_html"></span>
-                                            </div>
-                                        </li>
-                                        <li v-if="room.children_html">
-                                            <div class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{__('No. Children')}}">
-                                                <i class="input-icon field-icon fa-child fa"></i>
-                                                <span v-html="room.children_html"></span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="room-attribute-item" v-if="room.term_features">
-                                        <ul>
-                                            <li v-for="term_child in room.term_features">
-                                                <i class="input-icon field-icon" v-bind:class="term_child.icon" data-toggle="tooltip" data-placement="top" :title="term_child.title"></i>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3" v-if="room.number">
-                                <div class="col-price clear">
-                                    <div class="text-center">
-                                        <span class="price" v-html="room.price_html"></span>
-                                    </div>
-                                    <select v-if="room.number" v-model="room.number_selected" class="custom-select">
-                                        <option value="0">0</option>
-                                        <option v-for="i in (1,room.number)" :value="i">@{{i+' '+ (i > 1 ? i18n.rooms  : i18n.room)}} &nbsp;&nbsp; (@{{formatMoney(i*room.price)}})</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="hotel_room_book_status" v-if="total_price">
-            <div class="row row_extra_service" v-if="extra_price.length">
-                <div class="col-md-12">
-                    <div class="form-section-group">
-                        <label>{{__('Extra prices:')}}</label>
-                        <div class="row">
-                            <div class="col-md-6 extra-item" v-for="(type,index) in extra_price">
-                                <div class="extra-price-wrap d-flex justify-content-between">
-                                    <div class="flex-grow-1">
-                                        <label>
-                                            <input type="checkbox" true-value="1" false-value="0" v-model="type.enable"> @{{type.name}}
-                                            <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
-                                        </label>
-                                    </div>
-                                    <div class="flex-shrink-0">@{{type.price_html}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row row_total_price">
-                <div class="col-md-6">
-                    <div class="extra-price-wrap d-flex justify-content-between">
-                        <div class="flex-grow-1">
-                            <label>
-                                {{__("Total Room")}}:
-                            </label>
-                        </div>
-                        <div class="flex-shrink-0">
-                            @{{total_rooms}}
-                        </div>
-                    </div>
-                    <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
-                        <div class="flex-grow-1">
-                            <label>
-                                @{{type.type_name}}
-                                <span class="render" v-if="type.price_type">(@{{type.price_type}})</span>
-                                <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
-                            </label>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <div class="unit" v-if='type.unit == "percent"'>
-                                @{{ type.price }}%
-                            </div>
-                            <div class="unit" v-else >
-                                @{{ formatMoney(type.price) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="extra-price-wrap d-flex justify-content-between is_mobile">
-                        <div class="flex-grow-1">
-                            <label>
-                                {{__("Total Price")}}:
-                            </label>
-                        </div>
-                        <div class="total-room-price">@{{total_price_html}}</div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="control-book">
-                        <div class="total-room-price">
-                            <span> {{__("Total Price")}}:</span> @{{total_price_html}}
-                        </div>
-                        <div v-if="is_deposit_ready" class="total-room-price">
-                            <span>{{__("Pay now")}}</span>
-                            @{{pay_now_price_html}}
-                        </div>
-                        <button type="button" class="btn btn-primary" @click="doSubmit($event)" :class="{'disabled':onSubmit}" name="submit">
-                            <span >{{__("Book Now")}}</span>
-                            <i v-show="onSubmit" class="fa fa-spinner fa-spin"></i>
-                        </button>
-                    </div>
+<div id="hotel-services" class="hotel_services_list">
+    <h3 class="heading-section">{{__('Services')}}</h3>
 
+    @php
+        $services = \Modules\Hotel\Models\HotelRoom::where('parent_id', $row->id)
+            ->where('status', 'publish')
+            ->get();
+    @endphp
+
+    <div class="services-list">
+        @forelse($services as $service)
+            <div class="service-card">
+                <div class="service-info">
+                    <h4 class="service-name">{{ $service->title }}</h4>
+                    @if($service->duration)
+                        <span class="service-duration">{{ $service->duration }} {{__('min')}}</span>
+                    @endif
+                    <div class="service-price">{{__('from')}} {!! format_money($service->price) !!}</div>
+                </div>
+                <div class="service-book">
+                    <a href="#" class="btn-book">{{__('Book')}}</a>
                 </div>
             </div>
-        </div>
-        <div class="end_room_sticky"></div>
-        <div class="alert alert-warning" v-if="!firstLoad && !rooms.length">
-            {{__("No room available with your selected date. Please change your search critical")}}
-        </div>
+        @empty
+            <div class="alert alert-warning">{{__('No services available yet.')}}</div>
+        @endforelse
+    </div>
+    
+</div>
+
+<style>
+.hotel_services_list {
+    margin: 40px 0;
+}
+.hotel_services_list .heading-section {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.service-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: box-shadow 0.2s ease;
+}
+.service-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.service-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.service-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a1a;
+}
+.service-duration {
+    font-size: 14px;
+    color: #888;
+}
+.service-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-top: 4px;
+}
+.service-book {
+    flex-shrink: 0;
+}
+.btn-book {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 1px solid #1a1a1a;
+    border-radius: 24px;
+    color: #1a1a1a;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-book:hover {
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+}
+</style>
+
+<div id="hotel-team" class="hotel_team_list">
+    <h3 class="heading-section">{{__('Team')}}</h3>
+
+    @php
+        $staffs = \Modules\Hotel\Models\HotelStaff::where('parent_id', $row->id)
+            ->where('status', 'publish')
+            ->get();
+    @endphp
+
+    <div class="team-list">
+        @forelse($staffs as $staff)
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{{ $staff->getImageUrl('thumb') }}" alt="{{ $staff->name }}">
+                </div>
+                <div class="team-name">{{ $staff->name }}</div>
+                @if($staff->title)
+                    <div class="team-title">{{ $staff->title }}</div>
+                @endif
+            </div>
+        @empty
+            {{-- no team members yet, show nothing --}}
+        @endforelse
     </div>
 </div>
-@include("Booking::frontend.global.enquiry-form",['service_type'=>'hotel'])
+
+<style>
+.hotel_team_list {
+    margin: 40px 0;
+}
+.hotel_team_list .heading-section {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.team-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 120px;
+}
+.team-photo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #f0f0f0;
+}
+.team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.team-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #1a1a1a;
+}
+.team-title {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+}
+</style>

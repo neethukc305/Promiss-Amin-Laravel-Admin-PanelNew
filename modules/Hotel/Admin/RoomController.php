@@ -180,20 +180,16 @@ class RoomController extends AdminController
             $row = new $this->roomClass();
             $row->status = "publish";
         }
-        $dataKeys = [
-            'title',
-            'content',
-            'image_id',
-            'gallery',
-            'price',
-            'number',
-            'beds',
-            'size',
-            'adults',
-            'children',
-            'status',
-            'min_day_stays',
-        ];
+       $dataKeys = [
+    'title',
+    'content',
+    'image_id',
+    'gallery',
+    'price',
+    'number',
+    'duration',
+    'status',
+];
 
         $row->fillByAttr($dataKeys,$request->input());
 	    $row->ical_import_url  = $request->ical_import_url;

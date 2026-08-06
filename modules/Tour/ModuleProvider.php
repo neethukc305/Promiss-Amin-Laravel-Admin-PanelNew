@@ -88,7 +88,7 @@ class ModuleProvider extends ModuleServiceProvider
     }
 
 
-    public static function getUserMenu()
+  /*  public static function getUserMenu()
     {
         $res = [];
         if(Tour::isEnable()){
@@ -123,7 +123,7 @@ class ModuleProvider extends ModuleServiceProvider
         }
         return $res;
     }
-
+*/
     public static function getMenuBuilderTypes()
     {
         if(!Tour::isEnable()) return [];

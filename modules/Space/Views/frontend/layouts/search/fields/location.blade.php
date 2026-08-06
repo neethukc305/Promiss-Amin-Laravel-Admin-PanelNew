@@ -1,12 +1,12 @@
 @php($location_search_style = setting_item('space_location_search_style'))
 
 <div class="form-group">
-    <i class="field-icon fa icofont-map"></i>
+  <!--   <i class="field-icon fa icofont-map"></i>  -->
     <div class="form-content">
-        <label>{{ $field['title'] ?? "" }}</label>
+      <!--  <label>{{ $field['title'] ?? "" }}</label>   -->
         @if($location_search_style=='autocompletePlace')
             <div class="g-map-place" >
-                <input type="text" name="map_place" placeholder="{{__("Where are you going?")}}"  value="{{request()->input('map_place')}}" class="form-control border-0">
+                <input type="text" name="map_place" placeholder="{{__("Search by salon")}}"  value="{{request()->input('map_place')}}" class="form-control border-0">
                 <div class="map d-none" id="map-{{\Illuminate\Support\Str::random(10)}}"></div>
                 <input type="hidden" name="map_lat" value="{{request()->input('map_lat')}}">
                 <input type="hidden" name="map_lgn" value="{{request()->input('map_lgn')}}">
@@ -32,8 +32,13 @@
         $traverse($list_location);
         ?>
         <div class="smart-search">
-            <input type="text" class="smart-search-location parent_text form-control" {{ ( empty(setting_item("space_location_search_style")) or setting_item("space_location_search_style") == "normal" ) ? "readonly" : ""  }} placeholder="{{__("Where are you going?")}}" value="{{ $location_name }}" data-onLoad="{{__("Loading...")}}"
-                   data-default="{{ json_encode($list_json) }}">
+           <input type="text"
+       class="smart-search-location parent_text form-control"
+     {{ ( empty(setting_item("space_location_search_style")) || setting_item("space_location_search_style") == "normal" ) ? "readonly" : "" }}
+     placeholder="{{ __('Search by salon') }}"
+       value="{{ $location_name }}"
+       data-onLoad="{{ __('Loading...') }}"
+       data-default="{{ json_encode($list_json) }}">
             <input type="hidden" class="child_id" name="location_id" value="{{Request::query('location_id')}}">
         </div>
             @endif

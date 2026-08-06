@@ -218,16 +218,14 @@ class HotelController extends AdminController
             'check_in_time',
             'check_out_time',
             'allow_full_day',
-            'enable_extra_price',
             'extra_price',
-            'enable_extra_price',
             'extra_price',
             'status',
             'min_day_before_booking',
             'min_day_stays',
             'enable_service_fee',
             'service_fee',
-            'surrounding',
+            
         ];
         if($this->hasPermission('hotel_manage_others')){
             $dataKeys[] = 'create_user';

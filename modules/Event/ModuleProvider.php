@@ -89,6 +89,7 @@ class ModuleProvider extends ModuleServiceProvider
         ];
     }
 
+    /*
     public static function getUserMenu()
     {
         if(!Event::isEnable()) return [];
@@ -122,7 +123,7 @@ class ModuleProvider extends ModuleServiceProvider
                 ]
             ],
         ];
-    }
+    }  */
 
     public static function getTemplateBlocks(){
         if(!Event::isEnable()) return [];

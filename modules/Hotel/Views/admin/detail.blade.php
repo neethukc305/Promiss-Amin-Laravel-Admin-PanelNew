@@ -16,6 +16,10 @@
                     @if($row->id)
                         <a class="btn btn-warning btn-xs" href="{{route('hotel.admin.room.index',['hotel_id'=>$row->id])}}" target="_blank"><i class="fa fa-hand-o-right"></i> {{__("Manage Rooms")}}</a>
                     @endif
+
+                    @if($row->id)
+    <a class="btn btn-info btn-xs" href="{{route('hotel.admin.staff.index',['hotel_id'=>$row->id])}}" target="_blank"><i class="fa fa-users"></i> {{__("Manage Team")}}</a>
+@endif
                     @if($row->slug)
                         <a class="btn btn-primary btn-xs" href="{{$row->getDetailUrl(request()->query('lang'))}}" target="_blank">{{__("View Hotel")}}</a>
                     @endif
@@ -31,7 +35,6 @@
                         @include('Hotel::admin.hotel.content')
                         @include('Hotel::admin.hotel.pricing')
                         @include('Hotel::admin.hotel.location')
-                        @include('Hotel::admin.hotel.surrounding')
                         @include('Core::admin/seo-meta/seo-meta')
                     </div>
                     <div class="col-md-3">

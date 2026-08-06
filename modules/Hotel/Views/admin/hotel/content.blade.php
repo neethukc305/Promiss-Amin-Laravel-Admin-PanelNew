@@ -1,5 +1,5 @@
 <div class="panel">
-    <div class="panel-title"><strong>{{__("Hotel Content")}}</strong></div>
+    <div class="panel-title"><strong>{{__("Shop Content")}}</strong></div>
     <div class="panel-body">
         <div class="form-group">
             <label>{{__("Title")}}</label>
@@ -33,7 +33,7 @@
 </div>
 
 <div class="panel">
-    <div class="panel-title"><strong>{{__("Hotel Policy")}}</strong></div>
+    <div class="panel-title"><strong>{{__("Shop Policy")}}</strong></div>
     <div class="panel-body">
         @if(is_default_lang())
             <div class="row">

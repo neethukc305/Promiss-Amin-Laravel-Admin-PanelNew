@@ -48,6 +48,13 @@ Route::group(['prefix'=>'room'],function (){
 
 });
 
+Route::group(['prefix'=>'staff'],function (){
+    Route::get('{hotel_id}/index','StaffController@index')->name('hotel.admin.staff.index');
+    Route::get('{hotel_id}/edit/{id}','StaffController@edit')->name('hotel.admin.staff.edit');
+    Route::post('{hotel_id}/store/{id}','StaffController@store')->name('hotel.admin.staff.store');
+    Route::get('{hotel_id}/delete/{id}','StaffController@delete')->name('hotel.admin.staff.delete');
+});
+
 Route::group(['prefix'=>'{hotel_id}/availability'],function(){
     Route::get('/','AvailabilityController@index')->name('hotel.admin.room.availability.index');
     Route::get('/loadDates','AvailabilityController@loadDates')->name('hotel.admin.room.availability.loadDates');
