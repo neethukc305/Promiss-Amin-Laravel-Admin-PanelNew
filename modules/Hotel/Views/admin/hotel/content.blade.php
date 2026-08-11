@@ -28,6 +28,11 @@
                 <label class="control-label">{{__("Gallery")}}</label>
                 {!! \Modules\Media\Helpers\FileHelper::fieldGalleryUpload('gallery',$row->gallery) !!}
             </div>
+            <div class="form-group">
+    <label class="control-label">{{__("Portfolio")}}</label>
+    <div class="small">{{__("Upload photos of your work — haircuts, styling, makeup, nails, etc.")}}</div>
+    {!! \Modules\Media\Helpers\FileHelper::fieldGalleryUpload('portfolio_gallery',$row->portfolio_gallery) !!}
+</div>
         @endif
     </div>
 </div>

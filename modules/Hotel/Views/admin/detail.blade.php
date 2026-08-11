@@ -93,6 +93,26 @@
                                 </div>
                             </div>
                             @include('Hotel::admin.hotel.attributes')
+                            @if($row->id)
+<div class="panel">
+    <div class="panel-title"><strong>{{__('Team')}}</strong></div>
+    <div class="panel-body">
+        @php
+            $team_members = \Modules\Hotel\Models\HotelStaff::where('parent_id',$row->id)->get();
+        @endphp
+        @foreach($team_members as $member)
+            <div class="d-flex justify-content-between align-items-center" style="margin-bottom:8px;">
+                <div>
+                    <img src="{{$member->getImageUrl('thumb')}}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;">
+                    {{$member->name}} <small class="text-muted">{{$member->title}}</small>
+                </div>
+                <a href="{{route('hotel.admin.staff.edit',['hotel_id'=>$row->id,'id'=>$member->id])}}" class="btn btn-xs btn-default">{{__('Edit')}}</a>
+            </div>
+        @endforeach
+        <a href="{{route('hotel.admin.staff.index',['hotel_id'=>$row->id])}}" class="btn btn-xs btn-info" target="_blank">{{__('+ Manage Team')}}</a>
+    </div>
+</div>
+@endif
 
                             <div class="panel">
                                 <div class="panel-title"><strong>{{__('Feature Image')}}</strong></div>

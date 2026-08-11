@@ -123,9 +123,13 @@ class MediaController extends Controller
             $i++;
         } while (Storage::disk('uploads')->exists($testPath));
 
-        $check = $file->storeAs( $folder, $newFileName2 . '.' . $file->getClientOriginalExtension(),'uploads');
-
-        // Try to compress Images
+   dd([
+    'tmp_name'      => $_FILES['file']['tmp_name'] ?? null,
+    'tmp_exists'    => isset($_FILES['file']['tmp_name']) ? file_exists($_FILES['file']['tmp_name']) : false,
+    'realPath'      => $file->getRealPath(),
+    'pathName'      => $file->getPathname(),
+    'is_uploaded'   => isset($_FILES['file']['tmp_name']) ? is_uploaded_file($_FILES['file']['tmp_name']) : false,
+]);
         if(function_exists('proc_open') and function_exists('escapeshellarg')){
             try{
                 ImageOptimizer::optimize(public_path("uploads/".$check));

@@ -79,28 +79,32 @@
     @include('Hotel::frontend.layouts.details.hotel-attributes')
 </div>
 <div class="g-rules">
-    <h3>{{__("Rules")}}</h3>
+    <h3>{{__("Opening Times")}}</h3>
     <div class="description">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="key">{{__("Check In")}}</div>
+        @php
+            $opening_hours = json_decode($row->opening_hours ?? '', true) ?: [];
+            $days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+        @endphp
+        @foreach($days as $day)
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="key" style="text-transform:capitalize;">{{__($day)}}</div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="value">
+                        @if(!empty($opening_hours[$day]['open']) && !empty($opening_hours[$day]['close']))
+                            {{$opening_hours[$day]['open']}} - {{$opening_hours[$day]['close']}}
+                        @else
+                            {{__('Closed')}}
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-8">
-                <div class="value">	{{$row->check_in_time}} </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="key">{{__("Check Out")}}</div>
-            </div>
-            <div class="col-lg-8">
-                <div class="value">	{{$row->check_out_time}} </div>
-            </div>
-        </div>
+        @endforeach
         @if($translation->policy)
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="key">{{__("Hotel Policies")}}</div>
+                    <div class="key">{{__("Shop Policies")}}</div>
                 </div>
                 <div class="col-lg-8">
                     @foreach($translation->policy as $key => $item)

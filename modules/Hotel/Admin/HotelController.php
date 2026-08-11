@@ -215,8 +215,7 @@ class HotelController extends AdminController
             'star_rate',
             'price',
             'sale_price',
-            'check_in_time',
-            'check_out_time',
+            'portfolio_gallery',
             'allow_full_day',
             'extra_price',
             'extra_price',
@@ -232,6 +231,9 @@ class HotelController extends AdminController
         }
 
         $row->fillByAttr($dataKeys,$request->input());
+        if ($request->has('opening_hours')) {
+    $row->opening_hours = json_encode($request->input('opening_hours'));
+}
         if($request->input('slug')){
             $row->slug = $request->input('slug');
         }
