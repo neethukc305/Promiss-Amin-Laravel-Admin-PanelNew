@@ -2,10 +2,10 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-flex justify-content-between mb20">
-            <h1 class="title-bar">{{!empty($recovery) ? __('Recovery') : __("All Hotels")}}</h1>
+          <h1 class="title-bar">{{!empty($recovery) ? __('Recovery') : __("All Shops")}}</h1>
             <div class="title-actions">
                 @if(empty($recovery))
-                <a href="{{route('hotel.admin.create')}}" class="btn btn-primary">{{__("Add new hotel")}}</a>
+               <a href="{{route('hotel.admin.create')}}" class="btn btn-primary">{{__("Add new shop")}}</a>
                 @endif
             </div>
         </div>
@@ -109,17 +109,16 @@
                                                 {{__("Action")}}
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route('hotel.admin.edit',['id'=>$row->id])}}">{{__("Edit hotel")}}</a>
-                                                <a class="dropdown-item" href="{{route('hotel.admin.room.index',['hotel_id'=>$row->id])}}">{{__("Manage Rooms")}}</a>
-                                                <a class="dropdown-item" href="{{route('hotel.admin.room.availability.index',['hotel_id'=>$row->id])}}">{{__("Manage Rooms Availability")}}</a>
-                                            </div>
+                                               <a class="dropdown-item" href="{{route('hotel.admin.edit',['id'=>$row->id])}}">{{__("Edit shop")}}</a>
+<a class="dropdown-item" href="{{route('hotel.admin.room.index',['hotel_id'=>$row->id])}}">{{__("Manage Services")}}</a>
+<a class="dropdown-item" href="{{route('hotel.admin.room.availability.index',['hotel_id'=>$row->id])}}">{{__("Manage Services Availability")}}</a>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="7">{{__("No hotel found")}}</td>
+                              <td colspan="7">{{__("No shop found")}}</td>
                             </tr>
                         @endif
                         </tbody>

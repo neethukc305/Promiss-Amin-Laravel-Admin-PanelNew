@@ -27,45 +27,45 @@ class ModuleProvider extends ModuleServiceProvider
     }
 
     public static function getAdminMenu()
-    {
-        if(!Hotel::isEnable()) return [];
-        return [
-            'hotel'=>[
-                "position"=>32,
-                'url'        => 'admin/module/hotel',
-                'title'      => __('Hotel'),
-                'icon'       => 'fa fa-building-o',
-                'permission' => 'hotel_view',
-                'children'   => [
-                    'add'=>[
-                        'url'        => 'admin/module/hotel',
-                        'title'      => __('All Hotels'),
-                        'permission' => 'hotel_view',
-                    ],
-                    'create'=>[
-                        'url'        => 'admin/module/hotel/create',
-                        'title'      => __('Add new Hotel'),
-                        'permission' => 'hotel_create',
-                    ],
-                    'attribute'=>[
-                        'url'        => 'admin/module/hotel/attribute',
-                        'title'      => __('Attributes'),
-                        'permission' => 'hotel_manage_attributes',
-                    ],
-                    'room_attribute'=>[
-                        'url'        => 'admin/module/hotel/room/attribute',
-                        'title'      => __('Room Attributes'),
-                        'permission' => 'hotel_manage_attributes',
-                    ],
-                    'recovery'=>[
-                        'url'        => 'admin/module/hotel/recovery',
-                        'title'      => __('Recovery'),
-                        'permission' => 'hotel_view',
-                    ],
-                ]
+{
+    if(!Hotel::isEnable()) return [];
+    return [
+        'hotel'=>[
+            "position"=>32,
+            'url'        => 'admin/module/hotel',
+            'title'      => __('Shops'),
+            'icon'       => 'fa fa-building-o',
+            'permission' => 'hotel_view',
+            'children'   => [
+                'add'=>[
+                    'url'        => 'admin/module/hotel',
+                    'title'      => __('All Shops'),
+                    'permission' => 'hotel_view',
+                ],
+                'create'=>[
+                    'url'        => 'admin/module/hotel/create',
+                    'title'      => __('Add new Shop'),
+                    'permission' => 'hotel_create',
+                ],
+                'attribute'=>[
+                    'url'        => 'admin/module/hotel/attribute',
+                    'title'      => __('Shop Amenities'),
+                    'permission' => 'hotel_manage_attributes',
+                ],
+                'room_attribute'=>[
+                    'url'        => 'admin/module/hotel/room/attribute',
+                    'title'      => __('Service Categories'),
+                    'permission' => 'hotel_manage_attributes',
+                ],
+                'recovery'=>[
+                    'url'        => 'admin/module/hotel/recovery',
+                    'title'      => __('Recovery'),
+                    'permission' => 'hotel_view',
+                ],
             ]
-        ];
-    }
+        ]
+    ];
+}
 
     public static function getBookableServices()
     {
@@ -95,18 +95,18 @@ class ModuleProvider extends ModuleServiceProvider
         if(Hotel::isEnable()){
             $res['hotel'] = [
                 'url'   => route('hotel.vendor.index'),
-                'title'      => __("Manage Hotel"),
+                'title'      => __("Manage Shop"),
                 'icon'       => Hotel::getServiceIconFeatured(),
                 'position'   => 30,
                 'permission' => 'hotel_view',
                 'children' => [
                     [
                         'url'   => route('hotel.vendor.index'),
-                        'title'  => __("All Hotels"),
+                       'title'  => __("All Shops"),
                     ],
                     [
                         'url'   => route('hotel.vendor.create'),
-                        'title'      => __("Add Hotel"),
+                        'title'      => __("Add Shop"),
                         'permission' => 'hotel_create',
                     ],
                     [

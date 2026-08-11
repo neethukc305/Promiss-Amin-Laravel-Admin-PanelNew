@@ -81,20 +81,20 @@ class RoomController extends AdminController
             'rows'               => $query->with(['author'])->paginate(20),
             'hotel_manage_others' => $this->hasPermission('hotel_manage_others'),
             'breadcrumbs'        => [
-                [
-                    'name' => __('Hotels'),
-                    'url'  => 'admin/module/hotel'
-                ],
-                [
-                    'name' => __('Hotel: :name',['name'=>$this->currentHotel->title]),
-                    'url'  => 'admin/module/hotel/edit/'.$this->currentHotel->id
-                ],
-                [
-                    'name'  => __('Room Management'),
-                    'class' => 'active'
-                ],
-            ],
-            'page_title'=>__("Room Management"),
+    [
+        'name' => __('Shops'),
+        'url'  => 'admin/module/hotel'
+    ],
+    [
+        'name' => __('Shop: :name',['name'=>$this->currentHotel->title]),
+        'url'  => 'admin/module/hotel/edit/'.$this->currentHotel->id
+    ],
+    [
+        'name'  => __('Service Management'),
+        'class' => 'active'
+    ],
+],
+'page_title'=>__("Service Management"),
             'hotel'=>$this->currentHotel,
             'row'=> new $this->roomClass(),
             'translation'=>new $this->roomTranslationClass(),
@@ -131,19 +131,19 @@ class RoomController extends AdminController
             'enable_multi_lang'=>true,
             'breadcrumbs'    => [
                 [
-                    'name' => __('Hotels'),
+                    'name' => __('Shops'),
                     'url'  => 'admin/module/hotel'
                 ],
                 [
-                    'name' => __('Hotel: :name',['name'=>$this->currentHotel->title]),
+                    'name' => __('Shops: :name',['name'=>$this->currentHotel->title]),
                     'url'  => 'admin/module/hotel/edit/'.$this->currentHotel->id
                 ],
                 [
-                    'name' => __('All Rooms'),
+                    'name' => __('All Services'),
                     'url'  => 'admin/module/hotel/room/'.$this->currentHotel->id.'/index'
                 ],
                 [
-                    'name' => __('Edit room: :name',['name'=>$row->title]),
+                    'name' => __('Edit service: :name',['name'=>$row->title]),
                     'url'  => 'admin/module/hotel/room/'.$this->currentHotel->id.'/edit/'.$id
                 ],
             ],

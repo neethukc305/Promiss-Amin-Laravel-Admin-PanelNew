@@ -65,17 +65,17 @@ class HotelController extends AdminController
         $data = [
             'rows'               => $query->with(['author'])->paginate(20),
             'hotel_manage_others' => $this->hasPermission('hotel_manage_others'),
-            'breadcrumbs'        => [
-                [
-                    'name' => __('Hotels'),
-                    'url'  => 'admin/module/hotel'
-                ],
-                [
-                    'name'  => __('All'),
-                    'class' => 'active'
-                ],
-            ],
-            'page_title'=>__("Hotel Management")
+           'breadcrumbs'        => [
+    [
+        'name' => __('Shops'),
+        'url'  => 'admin/module/hotel'
+    ],
+    [
+        'name'  => __('All'),
+        'class' => 'active'
+    ],
+],
+'page_title'=>__("Shop Management")
         ];
         return view('Hotel::admin.index', $data);
     }
@@ -94,16 +94,16 @@ class HotelController extends AdminController
             'location_category' => $this->locationCategoryClass::where('status', 'publish')->get(),
             'translation'    => new $this->hotelTranslationClass(),
             'breadcrumbs'    => [
-                [
-                    'name' => __('Hotels'),
-                    'url'  => 'admin/module/hotel'
-                ],
-                [
-                    'name'  => __('Add Hotel'),
-                    'class' => 'active'
-                ],
-            ],
-            'page_title'     => __("Add new Hotel")
+    [
+        'name' => __('Shops'),
+        'url'  => 'admin/module/hotel'
+    ],
+    [
+        'name'  => __('Add Shop'),
+        'class' => 'active'
+    ],
+],
+'page_title'     => __("Add new Shop")
         ];
         return view('Hotel::admin.detail', $data);
     }
@@ -165,16 +165,16 @@ class HotelController extends AdminController
             'hotel_location'  => $this->locationClass::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where('status', 'publish')->get(),
             'enable_multi_lang'=>true,
-            'breadcrumbs'    => [
-                [
-                    'name' => __('Hotels'),
-                    'url'  => 'admin/module/hotel'
-                ],
-                [
-                    'name'  => __('Edit Hotel'),
-                    'class' => 'active'
-                ],
-            ],
+           'breadcrumbs'    => [
+    [
+        'name' => __('Shops'),
+        'url'  => 'admin/module/hotel'
+    ],
+    [
+        'name'  => __('Edit Shop'),
+        'class' => 'active'
+    ],
+],
             'page_title'=>__("Edit: :name",['name'=>$row->title])
         ];
         return view('Hotel::admin.detail', $data);
