@@ -31,6 +31,19 @@ Route::group(['prefix'=>'user/'.config('hotel.hotel_route_prefix'),'middleware' 
     });
 });
 
+Route::middleware('web')->group(function () {
+    Route::get('booking/service/{service_id}/start', 'ServiceBookingController@start')->name('hotel.booking.start');
+    Route::get('booking/service/professional', 'ServiceBookingController@professional')->name('hotel.booking.professional');
+    Route::post('booking/service/professional', 'ServiceBookingController@storeProfessional')->name('hotel.booking.professional.store');
+    Route::get('booking/service/datetime', 'ServiceBookingController@datetime')->name('hotel.booking.datetime');
+    Route::post('booking/service/datetime', 'ServiceBookingController@storeDatetime')->name('hotel.booking.datetime.store');
+    Route::get('booking/service/first-visit', 'ServiceBookingController@firstVisit')->name('hotel.booking.first_visit');
+    Route::post('booking/service/first-visit', 'ServiceBookingController@storeFirstVisit')->name('hotel.booking.first_visit.store');
+    Route::get('booking/service/review', 'ServiceBookingController@review')->name('hotel.booking.review');
+    Route::post('booking/service/confirm', 'ServiceBookingController@confirm')->name('hotel.booking.confirm');
+    Route::get('booking/service/thankyou/{code}', 'ServiceBookingController@thankyou')->name('hotel.booking.thankyou');
+});
+
 Route::group(['prefix'=>'user/'.config('hotel.hotel_route_prefix')],function(){
     Route::group(['prefix'=>'{hotel_id}/availability'],function(){
         Route::get('/','AvailabilityController@index')->name('hotel.vendor.room.availability.index');

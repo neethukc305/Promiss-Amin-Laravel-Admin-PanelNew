@@ -18,8 +18,8 @@
                     <div class="service-price">{{__('from')}} {!! format_money($service->price) !!}</div>
                 </div>
                 <div class="service-book">
-                    <a href="#" class="btn-book">{{__('Book')}}</a>
-                </div>
+    <a href="{{route('hotel.booking.start',['service_id'=>$service->id])}}" class="btn-book">{{__('Book')}}</a>
+</div>
             </div>
         @empty
             <div class="alert alert-warning">{{__('No services available yet.')}}</div>

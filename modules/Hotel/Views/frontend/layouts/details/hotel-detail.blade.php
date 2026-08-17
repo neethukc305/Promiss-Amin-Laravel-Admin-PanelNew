@@ -74,6 +74,50 @@
         </div>
     </div>
 @endif
+
+@if($row->getPortfolioGallery())
+    <div class="g-portfolio">
+        <h3 class="heading-section">{{__("Portfolio")}}</h3>
+        <div class="portfolio-gallery">
+            @foreach($row->getPortfolioGallery() as $item)
+                <a href="{{$item['large']}}" class="portfolio-item" data-fancybox="portfolio-gallery">
+                    <img src="{{$item['thumb']}}" alt="{{__('Portfolio')}}">
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+<style>
+.g-portfolio {
+    margin: 40px 0;
+}
+.g-portfolio .heading-section {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.portfolio-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+.portfolio-item {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+</style>
 @include('Hotel::frontend.layouts.details.hotel-rooms')
 <div class="g-all-attribute is_mobile">
     @include('Hotel::frontend.layouts.details.hotel-attributes')

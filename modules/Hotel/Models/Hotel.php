@@ -182,6 +182,23 @@ class Hotel extends Bookable
         return $list_item;
     }
 
+    public function getPortfolioGallery()
+{
+    if (empty($this->portfolio_gallery))
+        return [];
+    $list_item = [];
+    $items = explode(",", $this->portfolio_gallery);
+    foreach ($items as $k => $item) {
+        $large = FileHelper::url($item, 'full');
+        $thumb = FileHelper::url($item, 'thumb');
+        if (!$thumb) continue;
+        $list_item[] = [
+            'large' => $large,
+            'thumb' => $thumb
+        ];
+    }
+    return $list_item;
+}
     public function getEditUrl()
     {
         return url(route('hotel.admin.edit', ['id' => $this->id]));
