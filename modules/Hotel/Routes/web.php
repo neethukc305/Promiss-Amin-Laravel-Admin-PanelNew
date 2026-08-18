@@ -42,6 +42,7 @@ Route::middleware('web')->group(function () {
     Route::get('booking/service/review', 'ServiceBookingController@review')->name('hotel.booking.review');
     Route::post('booking/service/confirm', 'ServiceBookingController@confirm')->name('hotel.booking.confirm');
     Route::get('booking/service/thankyou/{code}', 'ServiceBookingController@thankyou')->name('hotel.booking.thankyou');
+    Route::post('rate-staff','ServiceBookingController@rateStaff')->name('hotel.booking.rate_staff');
 });
 
 Route::group(['prefix'=>'user/'.config('hotel.hotel_route_prefix')],function(){

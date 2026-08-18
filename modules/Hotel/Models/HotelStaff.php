@@ -30,4 +30,20 @@ class HotelStaff extends BaseModel
     {
         return FileHelper::url($this->image_id, $size);
     }
+
+    public function ratings()
+{
+    return $this->hasMany(HotelStaffRating::class, 'staff_id');
+}
+
+public function getAverageRating()
+{
+    $avg = $this->ratings()->avg('rating');
+    return $avg ? round($avg, 1) : 0;
+}
+
+public function getRatingCount()
+{
+    return $this->ratings()->count();
+}
 }

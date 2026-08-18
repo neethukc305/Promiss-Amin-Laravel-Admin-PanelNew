@@ -207,4 +207,33 @@ if (!Auth::check()) {
         }
         return view('Hotel::frontend.booking.thankyou', ['booking' => $booking]);
     }
+    public function rateStaff(Request $request)
+{
+    $request->validate([
+        'booking_id' => 'required',
+        'staff_id' => 'required',
+        'rating' => 'required|integer|min:1|max:5',
+    ]);
+
+    $booking = Booking::where('id', $request->input('booking_id'))
+        ->where('customer_id', Auth::id())
+        ->first();
+
+    if (empty($booking)) {
+        return redirect()->back()->with('error', __('Booking not found'));
+    }
+
+    \Modules\Hotel\Models\HotelStaffRating::updateOrCreate(
+        [
+            'staff_id' => $request->input('staff_id'),
+            'booking_id' => $booking->id,
+        ],
+        [
+            'customer_id' => Auth::id(),
+            'rating' => $request->input('rating'),
+        ]
+    );
+
+    return redirect()->back()->with('success', __('Thank you for your rating!'));
+}
 }

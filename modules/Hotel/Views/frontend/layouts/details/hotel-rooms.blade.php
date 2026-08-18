@@ -106,15 +106,23 @@
 
     <div class="team-list">
         @forelse($staffs as $staff)
-            <div class="team-card">
-                <div class="team-photo">
-                    <img src="{{ $staff->getImageUrl('thumb') }}" alt="{{ $staff->name }}">
-                </div>
-                <div class="team-name">{{ $staff->name }}</div>
-                @if($staff->title)
-                    <div class="team-title">{{ $staff->title }}</div>
-                @endif
-            </div>
+         <div class="team-card">
+    <div class="team-photo">
+        <img src="{{ $staff->getImageUrl('thumb') }}" alt="{{ $staff->name }}">
+    </div>
+    <div class="team-name">{{ $staff->name }}</div>
+    @if($staff->title)
+        <div class="team-title">{{ $staff->title }}</div>
+    @endif
+    @if($staff->getRatingCount() > 0)
+        <div class="team-rating">
+            @for($i = 1; $i <= 5; $i++)
+                <i class="fa fa-star{{ $i <= round($staff->getAverageRating()) ? '' : '-o' }}"></i>
+            @endfor
+            <span class="rating-count">({{ $staff->getRatingCount() }})</span>
+        </div>
+    @endif
+</div>
         @empty
             {{-- no team members yet, show nothing --}}
         @endforelse
@@ -164,5 +172,15 @@
     font-size: 13px;
     color: #888;
     margin-top: 2px;
+}
+
+.team-rating {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #f5a623;
+}
+.team-rating .rating-count {
+    color: #888;
+    margin-left: 4px;
 }
 </style>
