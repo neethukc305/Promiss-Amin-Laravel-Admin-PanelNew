@@ -79,14 +79,19 @@ class Booking extends BaseModel
         }
     }
 
-    public function service()
-    {
-        $all = get_bookable_services();
-        if ($this->object_model and !empty($all[$this->object_model])) {
-            return $this->hasOne($all[$this->object_model], 'id', 'object_id');
+   public function service()
+{
+    $all = get_bookable_services();
+    $model_key = $this->object_model == 'hotel_room' ? 'hotel' : $this->object_model;
+    if ($model_key and !empty($all[$model_key])) {
+        // hotel_room bookings should reference HotelRoom, not Hotel
+        if ($this->object_model == 'hotel_room') {
+            return $this->hasOne(\Modules\Hotel\Models\HotelRoom::class, 'id', 'object_id');
         }
-        return null;
+        return $this->hasOne($all[$model_key], 'id', 'object_id');
     }
+    return null;
+}
 
     public function payment()
     {
@@ -448,7 +453,9 @@ class Booking extends BaseModel
             $list_booking->where("object_model", $service);
         }
         $list_booking->where('status','!=','draft');
-        $list_booking->whereIn('object_model', array_keys(get_bookable_services()));
+       $allowed_models = array_keys(get_bookable_services());
+$allowed_models[] = 'hotel_room';
+$list_booking->whereIn('object_model', $allowed_models);
         return $list_booking->paginate(10);
     }
 

@@ -22,6 +22,9 @@ class HotelRoom extends Bookable
     protected $table = 'bravo_hotel_rooms';
     public $type = 'hotel_room';
     public $availabilityClass = HotelRoomDate::class;
+        public $checkout_booking_detail_modal_file = 'Hotel::frontend/booking/detail-modal';
+       public $checkout_booking_detail_file = 'Hotel::frontend/booking/detail-service';
+       
 
     protected $fillable = [
         'title',

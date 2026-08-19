@@ -1,10 +1,10 @@
 <tr>
-    <td class="booking-history-type">
-        @if($service = $booking->service)
-            <i class="{{$service->getServiceIconFeatured()}}"></i>
-        @endif
-        <small>{{$booking->object_model}}</small>
-    </td>
+   <td class="booking-history-type">
+    @if($service = $booking->service)
+        <i class="{{$service->getServiceIconFeatured()}}"></i>
+    @endif
+    <small>{{$booking->object_model == 'hotel_room' ? __('Service') : $booking->object_model}}</small>
+</td>
     <td>
         @if($service = $booking->service)
             @php
@@ -18,17 +18,20 @@
         @endif
     </td>
     <td class="a-hidden">{{display_date($booking->created_at)}}</td>
-    <td class="a-hidden">
+   <td class="a-hidden">
+    @if($booking->object_model == 'hotel_room')
+        {{__("Appointment")}} : {{display_date($booking->start_date)}}
+    @else
         {{__("Start date")}} : {{display_date($booking->start_date)}} <br>
         {{__("End date")}} : {{display_date($booking->end_date)}} <br>
         {{__("Duration")}} :
-
         @if($booking->duration_nights <= 1)
             {{__(':count night',['count'=>$booking->duration_nights])}}
         @else
             {{__(':count nights',['count'=>$booking->duration_nights])}}
         @endif
-    </td>
+    @endif
+</td>
     <td>{{format_money_main($booking->total)}}</td>
     <td>{{format_money($booking->paid)}}</td>
     <td>{{format_money($booking->total - $booking->paid)}}</td>

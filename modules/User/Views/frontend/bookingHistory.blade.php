@@ -41,7 +41,10 @@
                             </thead>
                             <tbody>
                             @foreach($bookings as $booking)
-                                @include(ucfirst($booking->object_model).'::frontend.bookingHistory.loop')
+                               @php
+    $object_model_for_view = $booking->object_model == 'hotel_room' ? 'hotel' : $booking->object_model;
+@endphp
+@include(ucfirst($object_model_for_view).'::frontend.bookingHistory.loop')
                             @endforeach
                             </tbody>
                         </table>
