@@ -29,10 +29,12 @@
                         <table class="table table-bordered table-striped table-booking-history">
                             <thead>
                             <tr>
-                                <th width="2%">{{__("Type")}}</th>
-                                <th>{{__("Title")}}</th>
-                                <th class="a-hidden">{{__("Order Date")}}</th>
-                                <th class="a-hidden">{{__("Execution Time")}}</th>
+                                <th width="5%">{{__("ID")}}</th>
+                                <th>{{__("Service")}}</th>
+                                <th>{{__("Client Name")}}</th>
+                                <th>{{__("Phone")}}</th>
+                                <th class="a-hidden">{{__("Booking Date")}}</th>
+                                <th class="a-hidden">{{__("Appointment")}}</th>
                                 <th width="15%">{{__("Payment Detail")}}</th>
                                 <th>{{__("Commission")}}</th>
                                 <th class="a-hidden">{{__("Status")}}</th>
@@ -41,7 +43,10 @@
                             </thead>
                             <tbody>
                             @foreach($bookings as $booking)
-                                @include(ucfirst($booking->object_model).'::frontend.bookingReport.loop')
+                                @php
+                                    $object_model_for_view = $booking->object_model == 'hotel_room' ? 'hotel' : $booking->object_model;
+                                @endphp
+                                @include(ucfirst($object_model_for_view).'::frontend.bookingReport.loop')
                             @endforeach
                             </tbody>
                         </table>

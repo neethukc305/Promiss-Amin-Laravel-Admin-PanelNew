@@ -1,10 +1,5 @@
 <tr>
-    <td class="booking-history-type">
-        @if($service = $booking->service)
-            <i class="{{$service->getServiceIconFeatured()}}"></i>
-        @endif
-        <small>{{$booking->object_model}}</small>
-    </td>
+    <td>#{{$booking->id}}</td>
     <td>
         @if($service = $booking->service)
             <a target="_blank" href="{{$service->getDetailUrl()}}">
@@ -14,15 +9,20 @@
             {{__("[Deleted]")}}
         @endif
     </td>
+    <td>{{trim($booking->first_name.' '.$booking->last_name) ?: __('N/A')}}</td>
+    <td>{{$booking->phone ?: '-'}}</td>
     <td class="a-hidden">{{display_date($booking->created_at)}}</td>
     <td class="a-hidden">
-        {{__("Check in")}} : {{display_date($booking->start_date)}} <br>
-        {{__("Check out")}} : {{display_date($booking->end_date)}} <br>
-        @php $rooms = \Modules\Hotel\Models\HotelRoomBooking::getByBookingId($booking->id) @endphp
-        @if(!empty($rooms))
-            @foreach($rooms as $room)
-                    <div class="label">{{$room->room->title}} * {{$room->number}} = {{format_money_main($room->price * $room->number)}} </div>
-            @endforeach
+        @if($booking->object_model == 'hotel_room')
+            {{display_date($booking->start_date)}}
+            @if($booking->staff_id)
+                <br>
+                @php $staff = \Modules\Hotel\Models\HotelStaff::find($booking->staff_id); @endphp
+                <small class="text-muted">{{__("Professional")}}: {{$staff->name ?? __('N/A')}}</small>
+            @endif
+        @else
+            {{__("Check in")}} : {{display_date($booking->start_date)}} <br>
+            {{__("Check out")}} : {{display_date($booking->end_date)}}
         @endif
     </td>
     <td>
@@ -31,9 +31,8 @@
         <div>{{__("Remain")}}: {{format_money($booking->total - $booking->paid)}}</div>
     </td>
     <td>
-        @php $commission = $booking->commission @endphp
-        @if(!empty($commission))
-            {{ format_money($commission) }}
+        @if(!empty($booking->commission))
+            {{ format_money($booking->commission) }}
         @endif
     </td>
     <td class="{{$booking->status}} a-hidden">{{$booking->statusName}}</td>
